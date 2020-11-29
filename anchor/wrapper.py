@@ -1,4 +1,3 @@
-from random import randrange
 from typing import List, Dict, Tuple
 from xxhash import xxh64_intdigest
 from anchor.anchorhash import AnchorHash
@@ -11,13 +10,13 @@ class Anchor:
     M: List[str]  # bijection resource <--> bucket
     M_inverse: Dict[str, int]
 
-    def __init__(self, working_set: List[str], capacity: int = None, seed: int = randrange(1 << 32)) -> None:
+    def __init__(self, working_set: List[str], capacity: int, seed: int -> None:
         """Creates an AnchorHash Object
 
         Args:
             working_set:    list of working set resource
             capacity:       capacity of anchor set. default to 10% more than resource set
-            seed:           optional random seed (unsigned 32 bit int to use with `xxhash`)
+            seed:           random unsigned 32 bit int seed to use with `xxhash` (in a distributed system, all must use same seed)
 
         Returns:
             Anchor wrapper object
@@ -26,17 +25,13 @@ class Anchor:
         if len(working_set) < 1:
             raise ValueError("Must have at least one working resource")
         w = len(working_set)
-        if capacity is None:
-            a = int(1.1 * w)
-        else:
-            a = capacity
+        a = capacity
         self.M = working_set + ["" for _ in range(w, a)]
         self.M_inverse = dict([(resource, bucket) for (bucket, resource) in enumerate(self.M[:w])])
         self.anchor = AnchorHash(a=a, w=w)
 
     def get_resource(self, key: str) -> Tuple[str, int]:
         """Return resource for key
-        Caches result
 
         Args:
             key
@@ -77,7 +72,7 @@ class Anchor:
 
         Args:
             s:  name of resource to remove.
-                If giver then must exist, default remove resource with highest bucket
+                If given then must exist, default remove resource with highest bucket
                 Must not remove last resource.
 
         Returns:
