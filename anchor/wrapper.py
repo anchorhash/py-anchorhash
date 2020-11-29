@@ -10,7 +10,7 @@ class Anchor:
     M: List[str]  # bijection resource <--> bucket
     M_inverse: Dict[str, int]
 
-    def __init__(self, working_set: List[str], capacity: int, seed: int -> None:
+    def __init__(self, working_set: List[str], capacity: int, seed: int) -> None:
         """Creates an AnchorHash Object
 
         Args:
