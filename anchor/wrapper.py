@@ -15,8 +15,8 @@ class Anchor:
 
         Args:
             working_set:    list of working set resource
-            capacity:       capacity of anchor set. default to 10% more than resource set
-            seed:           random unsigned 32 bit int seed to use with `xxhash` (in a distributed system, all must use same seed)
+            capacity:       capacity of anchor set
+            seed:           random seed to use with `xxhash` (in a distributed system, all must use same seed)
 
         Returns:
             Anchor wrapper object
